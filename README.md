@@ -2,7 +2,7 @@
 
 **`Lets first learn the about 2 core concepts of all testing`**
 
-> You dont need to focus on the code samples of this section.We will get into it later.
+> You don't need to focus on the code samples of this section.We will get into it later.
 
 ### Test-Driven Development (TDD) Cycle
 
@@ -38,7 +38,7 @@ test('should return true when user is logged in', () {
 
 - ✅ Implement the **simplest logic** to satisfy the test.
 - 🧩 No optimizations, no refactoring — just **make it work**.
-- 🔐 Avoid overengineering; keep the solution **minimal and focused**.
+- 🔐 Avoid over engineering; keep the solution **minimal and focused**.
 
 ---
 
@@ -78,7 +78,7 @@ Before implementing anything, we will write the test cases. Remember, Red-Green-
 
 ### Design Structure of a Unit test
 
-> Based on the implementation you can desing you test cases in folders as you need it.
+> Based on the implementation you can design you test cases in folders as you need it.
 
 ```bash
 test/
@@ -121,7 +121,7 @@ void main(){
 ```
 
 Generally you can have **two types** of test cases in terms of **how you are writing them**.
-1. Independed test case
+1. Independent test case
 2. A test case `GROUP` that contains multiple test cases
 
 ```dart
@@ -192,9 +192,9 @@ void main() {
 > Define the variables and class you need in the way you need it. Based on requirement you may need 2 types of setup.
 
 1. **Data that maintain their state**
-    > Generally let's think in this [structure](#design-pattern-of-a-unit-test) mentioned in the top. What can we do to make a variable to hold its state? 
+    > Generally let's think in this [structure](#design-pattern-of-a-unit-test) mentioned in the top, what can we do so that a variable holds it's state? 
 
-    > Well if we directly store somthing inside the main function as a variable? wont all of the function bellow have access to that? and wont all changes made to it reflect on each test cases when accessed? 
+    > Well if we directly store something inside the main function as a variable? wont all of the function bellow have access to that? and wont all changes made to it reflect on each test cases when accessed? 
 
     > Well thats the general concept and true for our case as well 
 
@@ -210,7 +210,7 @@ void main() {
         List<Object> dynamicList = [];
 
         // Please note that you can have references and objects
-        // from your custome classes here as well
+        // from your custom classes here as well
     }
     ```
 
@@ -222,11 +222,11 @@ void main() {
     > Well, in flutter app development we have seen 
     >- Classes with varying init setup using constructors
     >- To check how null is handled
-    >- To check a function if some other parm is in their init state and much more ...
+    >- To check a functions behavior if some other parm is in their init state with in the class or controller and much more ...
 
-    > For all this caces and more we need to have a `fresh instance` of our variables or class insances. So to reduce the hassle of clearing or re-initing it every time in code. We set it up like this.. using the **setUp()** function
+    > For all this cases and more we need to have a `fresh instance` of our variables or class instances. So to reduce the hassle of clearing or reinitialize it every time in code. We set it up like this.. using the **setUp()** function
 
-    > It's smae as calling init of a Statefull widget or calling onInit() in Getx Controller..
+    > It's same as calling init of a Stateful widget or calling onInit() in Get Controller..
 
     **Example:**
     ```dart
@@ -238,17 +238,47 @@ void main() {
         late DateTime dateTime;
 
         // THEN USE THE setUp function to assign the value
-        // It's smae as calling init of a statefull widget 
-        // or calling onInit() in Getx Controller ..
+        // It's same as calling init of a stateful widget 
+        // or calling onInit() in Get Controller ..
         // The setUp() runs once before every teat case with in this void main..
         setUp(() {
             dateTime = DateTime.now();
             refreshedCounter = Counter();
         });
+
+        test('description',(){
+            int x = 0; // Also possible but not preferred unless strictly required 
+        });
     }
     ```    
+    #### `🔖Please note that you can set up the Arrange segment in the top or with in a test function as per your need.`
 ---
 
+#### 📦 2. Act
+
+📌 **Goal:** Execute the functions or do the required manipulations as per business needs.
+
+>🔖 A quick note, we were declaring the the variables in the [Arrange](#-1-arrange) segment at the top with the main function or in a test function. **But all Act and assert must be with in the test function** 
+
+**Example:**
+```dart
+void main(){
+        
+        // Arrange
+        late Counter counter;
+        setUp(() {
+            counter = Counter();
+        });
+
+        test('Check increment function', () {
+        // ACT
+        // Do all the required manipulations here
+        counter.incrementCounter();
+
+        // async await calls can be achieved in the simile way 
+      });
+    }
+```
 
 
 
