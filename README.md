@@ -177,13 +177,6 @@ void main() {
 
 ### Arrange–Act–Assert (AAA) Pattern
 > Now lets talk about how the arrangement works. We will focus on cases and use for flutter but its a standard structure. **Please focus on the implementation example from this point**
-
-
-
-1. 📦 **Arrange** – Set up the test data and environment.
-2. 🚀 **Act** – Execute the function or behavior under test.
-3. ✅ **Assert** – Verify the outcome matches expectations.
-
 ---
 #### 📦 1. Arrange
 
@@ -254,7 +247,7 @@ void main() {
     #### `🔖Please note that you can set up the Arrange segment in the top or with in a test function as per your need.`
 ---
 
-#### 📦 2. Act
+#### 🚀 2. Act
 
 📌 **Goal:** Execute the functions or do the required manipulations as per business needs.
 
@@ -279,6 +272,34 @@ void main(){
       });
     }
 ```
+---
 
+#### ✅ 3. Assert
 
+📌 **Goal:** Verify if the outcome matches your expectations and business logic.
 
+>🔖 A quick note, we were declaring the the variables in the [Arrange](#-1-arrange) segment at the top with the main function or in a test function. **But all Act and assert must be with in the test function** 
+
+**Example:**
+```dart
+void main(){
+        
+        // Arrange
+        late Counter counter;
+        setUp(() {
+            counter = Counter();
+        });
+
+        test('Check increment function', () {
+        // ACT
+        counter.incrementCounter();
+
+        // ASSERT
+        // Target the variables and match the result with expected value
+
+        // If this segment matches .. The test case will pass otherwise an error will be thrown
+        expect(counter.count, 1);
+      });
+    }
+```
+---
