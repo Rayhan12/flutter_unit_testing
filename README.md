@@ -303,3 +303,199 @@ void main(){
     }
 ```
 ---
+
+
+## Test case example
+> So now we know what is what, Lets dive in and see how to use our newly gained knowledge
+
+> We will be seeing an test example for a counter class
+
+> Let's start
+
+#### Step 1 : Define the test cases as per business requirements
+
+In our counter class we need check if,
+1. It inits properly that means, is the `count == 0`
+2. Is it adding 1 to the count when ever the function is called
+3. Is it decrementing the count by one on each call
+4. When the `count == 0`, if we call decrementCounter it should remain `0`.
+
+---
+
+#### Step 2: Let's make a counter test file as `counter_test.dart` and wright the test cases
+
+> We are implementing the 🔴 Red cases if you remember from our [TDD Life Cycle](#test-driven-development-tdd-cycle)
+
+> 📒 **Please note that you will get a synnex error as you don't have a counter class, Thats the first 🔴 Red** 
+
+```dart
+void main() {
+  // ARRANGE
+  Counter counter = Counter();
+  late Counter refreshedCounter;
+
+  setUp(() {
+    refreshedCounter = Counter();
+  });
+
+  group(
+    'testing the counter class',
+    () {
+      test(
+        'Check counter init',
+        () {
+          // ACT
+          // NOT NEEDED FOR THIS CASE
+
+          // ASSERT
+          expect(refreshedCounter.count, 0);
+        },
+      );
+
+      test('Check increment function', () {
+        // ACT
+        counter.incrementCounter();
+        counter.incrementCounter();
+
+        // ASSERT
+        expect(counter.count, 2);
+      });
+
+      test('Check decrement async function', () async {
+        // ACT
+        await counter.decrementCountWithDelay();
+
+        // ASSERT
+        expect(counter.count, 1);
+      });
+
+      test('Check decrement async function if called on init', () async {
+        // ACT
+        await counter.decrementCountWithDelay();
+
+        // ASSERT
+        expect(refreshedCounter.count, 0);
+      });
+    },
+  );
+}
+```
+---
+#### Step 3: Run the test and implement 🟢 Green step
+
+> Lets run, check and implement the bear minimum to get all cases passed
+
+**Run In Terminal**
+```bash
+flutter test test/counter_test.dart
+```
+**Run in VS Code or Android studio**
+> Arrows will be their with the main function, group and test cases. Click and run...
+
+**Create the counter class with required functions**
+> As we didn't implement the counter class and left it as the first 🔴 Red mark. Lets fix it.
+
+```dart
+class Counter{
+    int count = -1;
+}
+```
+> We also need the `incrementCounter` and the `decrementCountWithDelay` functions  as they are called in the test. 
+
+```dart
+class Counter {
+  int count = -1;
+
+  void incrementCounter() {}
+
+  Future<void> decrementCountWithDelay() async {}
+}
+
+```
+
+**Check by calling the test**
+
+> As expected all of out test cases failed
+```bash
+C:\src\flutter\bin\flutter.bat --no-color test --machine --start-paused test\unit_test.dart
+Testing started at 2:45 PM ...
+
+package:matcher                                     expect
+package:flutter_test/src/widget_tester.dart 480:18  expect
+test\unit_test.dart 83:11                           main.<fn>.<fn>
+
+Expected: <0>
+  Actual: <-1>
+
+package:matcher                                     expect
+package:flutter_test/src/widget_tester.dart 480:18  expect
+test\unit_test.dart 93:9                            main.<fn>.<fn>
+
+Expected: <2>
+  Actual: <-1>
+
+package:matcher                                     expect
+package:flutter_test/src/widget_tester.dart 480:18  expect
+test\unit_test.dart 101:9                           main.<fn>.<fn>
+
+Expected: <1>
+  Actual: <-1>
+
+package:matcher                                     expect
+package:flutter_test/src/widget_tester.dart 480:18  expect
+test\unit_test.dart 109:9                           main.<fn>.<fn>
+
+Expected: <0>
+  Actual: <-1>
+
+```
+---
+
+**Let's do the bear minimum to get all passed cases**
+
+> Yes this is not out final expected implementation but it is the bear minimum required to get all classes passed
+
+```dart
+class Counter {
+  int count = 0;
+
+  void incrementCounter() {
+    count = 2;
+  }
+
+  Future<void> decrementCountWithDelay() async {
+    if (count == 0) return;
+    count = 1;
+  }
+}
+```
+![test result](/assets/test_all_pre_passes.png)
+
+---
+
+**OK, Now its time to refactor the implementation while maintaining all cases at passed state**
+
+```dart
+class Counter {
+  int count = 0;
+
+  void incrementCounter() {
+    // Instead of setting the count to 2 we make the counter go UP ⬆️ 
+    count++;
+  }
+
+  Future<void> decrementCountWithDelay() async {
+    // Adding this 2 second delay to create the async behavior
+    await Future.delayed(const Duration(seconds: 2));
+    
+    // if the counter is in init state re don't decrement the count
+    if (count == 0) return;
+
+    // Else we decrement the counter ⬇️
+    count--;
+  }
+}
+
+```
+> This will give us all the passed test cases but this time, They should pass genuinely
+---
