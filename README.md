@@ -4,7 +4,7 @@
 
 ### 🧪 Test-Driven Development (TDD) Cycle
 
-![red-green-refactor-cycle](assets\1_kdK8wQljp6MtEKAur6Wjrw.webp)
+![red-green-refactor-cycle](assets/1_kdK8wQljp6MtEKAur6Wjrw.webp)
 
 > A *red-green-refactor* workflow for writing reliable, maintainable, and test-first code.
 
