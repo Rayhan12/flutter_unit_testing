@@ -192,7 +192,63 @@ void main() {
 > Define the variables and class you need in the way you need it. Based on requirement you may need 2 types of setup.
 
 1. **Data that maintain their state**
+    > Generally let's think in this [structure](#design-pattern-of-a-unit-test) mentioned in the top. What can we do to make a variable to hold its state? 
+
+    > Well if we directly store somthing inside the main function as a variable? wont all of the function bellow have access to that? and wont all changes made to it reflect on each test cases when accessed? 
+
+    > Well thats the general concept and true for our case as well 
+
+    **Example:**
+    ```dart
+    void main(){
+        // Any thing defined here will maintain state 
+        // as its just a function and we are calling other 
+        // functions form inside the main function here!
+
+        int targetCount = 0;
+        String name = '';
+        List<Object> dynamicList = [];
+
+        // Please note that you can have references and objects
+        // from your custome classes here as well
+    }
+    ```
+
+
 2. **Data that refresh just before every test function is called**
+
+    > Before going into how we set this up. Let's know why we need it? 
+
+    > Well, in flutter app development we have seen 
+    >- Classes with varying init setup using constructors
+    >- To check how null is handled
+    >- To check a function if some other parm is in their init state and much more ...
+
+    > For all this caces and more we need to have a `fresh instance` of our variables or class insances. So to reduce the hassle of clearing or re-initing it every time in code. We set it up like this.. using the **setUp()** function
+
+    > It's smae as calling init of a Statefull widget or calling onInit() in Getx Controller..
+
+    **Example:**
+    ```dart
+    void main(){
+        
+        // SET UP FOR LATE INIT
+        // So that all the functions bellow have access to your variables
+        late Counter counter;
+        late DateTime dateTime;
+
+        // THEN USE THE setUp function to assign the value
+        // It's smae as calling init of a statefull widget 
+        // or calling onInit() in Getx Controller ..
+        // The setUp() runs once before every teat case with in this void main..
+        setUp(() {
+            dateTime = DateTime.now();
+            refreshedCounter = Counter();
+        });
+    }
+    ```    
 ---
+
+
 
 
