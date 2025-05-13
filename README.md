@@ -2,11 +2,15 @@
 
 **`Lets first learn the about 2 core concepts of all testing`**
 
-### 🧪 Test-Driven Development (TDD) Cycle
+> You dont need to focus on the code samples of this section.We will get into it later.
+
+### Test-Driven Development (TDD) Cycle
 
 ![red-green-refactor-cycle](assets/1_kdK8wQljp6MtEKAur6Wjrw.webp)
 
 > A *red-green-refactor* workflow for writing reliable, maintainable, and test-first code.
+
+>For most developers, it’s not something that comes naturally and the hardest part is to get used to it. But the good news is that the process of TDD is rhythmic, and because of that, I will try to show you by example how easy it is when you feel the rhythm. Basically, through all your work you need to repeat 3 steps/colors:
 
 ---
 
@@ -72,10 +76,123 @@ Before implementing anything, we will write the test cases. Remember, Red-Green-
 
 ---
 
+### Design Structure of a Unit test
+
+> Based on the implementation you can desing you test cases in folders as you need it.
+
+```bash
+test/
+├── core/
+│   ├── utils/
+│   │   └── date_helper_test.dart
+│   └── services/
+│       └── logger_service_test.dart
+│
+├── shared/
+│   └── models/
+│       └── user_model_test.dart
+│
+├── modules/
+│   ├── auth/
+│       ├── application/
+│       │   └── login_use_case_test.dart
+│       ├── domain/
+│       │   └── auth_validator_test.dart
+│       └── presentation/
+│           └── login_controller_test.dart
+│
+├── widgets/
+│   └── custom_button_test.dart
+│
+└── main_test.dart
+
+```
+
+---
+
+### Design pattern of a Unit test
+
+> Always remember every `<test_file_name>.dart` test file follows the same structure
+
+```dart
+void main(){
+    // Define your test cased....
+}
+```
+
+Generally you can have **two types** of test cases in terms of **how you are writing them**.
+1. Independed test case
+2. A test case `GROUP` that contains multiple test cases
+
+```dart
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+
+  // Independent case
+  test(
+    'description of the test case',
+    () {
+        // Code for your test
+    },
+  );
+
+  // Group test cases
+  group(
+    'description of the test GROUP',
+    () {
+      test(
+        'description of the test case 1 of this group',
+        () {
+            // Code for your test
+        },
+      );
+
+      test(
+        'description of the test case 2 of this group',
+        () {
+            // Code for your test
+        },
+      );
+
+      test(
+        'description of the test case 3 of this group',
+        () {
+            // Code for your test
+        },
+      );
+    },
+  );
+}
+
+```
+
+**When to use which?**
+> Generally for testing a **Class, Controller, Service** wright them in a group which gives you a compact segemnt to run only that part that you are currently working on at once and in sequence. 
+
+> For stand alone functions you can go with Independent test case
+
+---
 
 
-**🧪 Arrange–Act–Assert (AAA) Pattern**
+### Arrange–Act–Assert (AAA) Pattern
+> Now lets talk about how the arrangement works. We will focus on cases and use for flutter but its a standard structure. **Please focus on the implementation example from this point**
+
+
 
 1. 📦 **Arrange** – Set up the test data and environment.
 2. 🚀 **Act** – Execute the function or behavior under test.
 3. ✅ **Assert** – Verify the outcome matches expectations.
+
+---
+#### 📦 1. Arrange
+
+📌 **Goal:** Set up the test data and environment.
+
+> Define the variables and class you need in the way you need it. Based on requirement you may need 2 types of setup.
+
+1. **Data that maintain their state**
+2. **Data that refresh just before every test function is called**
+---
+
+
